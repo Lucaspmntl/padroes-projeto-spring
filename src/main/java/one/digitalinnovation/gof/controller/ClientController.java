@@ -1,8 +1,10 @@
 package one.digitalinnovation.gof.controller;
 
+import one.digitalinnovation.gof.dto.ClientDTO;
 import one.digitalinnovation.gof.model.Client;
 import one.digitalinnovation.gof.service.ClientService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -14,28 +16,32 @@ public class ClientController {
     private ClientService clientService;
 
     @GetMapping
-    public ResponseEntity<Iterable <Client>> findAll(){
+    public ResponseEntity<Iterable <ClientDTO>> findAll(){
         return ResponseEntity.ok(clientService.findAll());
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Client> findById(@PathVariable long id){
+    public ResponseEntity<ClientDTO> findById(@PathVariable long id){
         return ResponseEntity.ok(clientService.findById(id));
     }
 
     @PostMapping
-    public ResponseEntity<Client> insert(){
-        return ResponseEntity.ok(clientService.insert(client));
+    public ResponseEntity<ClientDTO> insert(@RequestBody ClientDTO dto){
+        return ResponseEntity
+                .status(HttpStatus.CREATED)
+                .body(clientService.insert(dto));
     }
 
-    @PostMapping
-    public ResponseEntity<Client> update(){
-        return ResponseEntity.ok(clientService.update(client));
+    @PostMapping("/{id}")
+    public ResponseEntity<ClientDTO> update(@RequestBody ClientDTO dto, @PathVariable long id){
+        return ResponseEntity
+                .status(HttpStatus.CREATED)
+                .body(clientService.update(id, dto));
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Client> delete(@PathVariable long id){
+    public ResponseEntity<ClientDTO> delete(@PathVariable long id){
         clientService.delete(id);
-        return ResponseEntity.ok().build();
+        return ResponseEntity.noContent().build();
     }
 }
