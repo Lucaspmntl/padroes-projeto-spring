@@ -7,7 +7,6 @@ import one.digitalinnovation.gof.service.ClientService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class ClientServiceImpl implements ClientService {
@@ -37,12 +36,21 @@ public class ClientServiceImpl implements ClientService {
     
     @Override
     public ClientDTO insert(ClientDTO dto) {
+        // FIXME Verificar se o endereço do cliente ja existe (Pelo CEP).
+        // FIXME Caso nao exista, integrar com o ViaCEP e persistir o retorno.
+        // FIXME Inserir cliente, vinculando o endereço (novo ou existente).
+
         Client insertedClient = clientRepository.save(new Client(dto));
         return ClientDTO.fromEntity(insertedClient);
     }
 
     @Override
     public ClientDTO update(Long id, ClientDTO dto) {
+        // FIXME Buscar cliente por id, caso exista:
+        // FIXME Verificar se o endereço do cliente já existe (pelo CEP)
+        // FIXME Caso não exista, integrar com o ViaCEP e persistir o retorno
+        // FIXME Alterar Cliente, vinculando o Endereço (novo ou existente)
+
         Client oldClient = clientRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Client not found with id " + id));
 
