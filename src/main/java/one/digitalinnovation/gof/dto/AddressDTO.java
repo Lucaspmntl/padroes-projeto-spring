@@ -1,6 +1,8 @@
 package one.digitalinnovation.gof.dto;
 
 public record AddressDTO(
+
+    // TODO: Beans validation para validação prática de dados
     String cep,
     String street,
     String complement,
@@ -12,5 +14,4 @@ public record AddressDTO(
     String ddd,
     String siafi
 ) {
-    
 }

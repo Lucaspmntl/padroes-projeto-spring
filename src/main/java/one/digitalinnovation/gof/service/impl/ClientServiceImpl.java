@@ -1,5 +1,6 @@
 package one.digitalinnovation.gof.service.impl;
 
+import jakarta.transaction.Transactional;
 import one.digitalinnovation.gof.dto.ClientDTO;
 import one.digitalinnovation.gof.model.Address;
 import one.digitalinnovation.gof.model.Client;
@@ -37,6 +38,8 @@ public class ClientServiceImpl implements ClientService {
 
     @Override
     public ClientDTO findById(Long id) {
+        // TODO: Criar uma exceção personalizada (ex: ResourceNotFoundException) e @ControllerAdvice para tratar o erro globalmente
+
         Client client = clientRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Client not found with id "+id));
 
@@ -44,11 +47,11 @@ public class ClientServiceImpl implements ClientService {
     }
     
     @Override
+    @Transactional
     public ClientDTO insert(ClientDTO dto) {
-        // FIXME Verificar se o endereço do cliente ja existe (Pelo CEP). -------------
-        // FIXME Caso nao exista, integrar com o ViaCEP e persistir o retorno. ------------
-        // FIXME Inserir cliente, vinculando o endereço (novo ou existente). ----------------
+        // TODO: Tratamento de exceções personalizado
 
+        // TODO: Adicionar validação defensiva: verificar possiveis dados nulos
         String cep = dto.address().getCep();
 
         Address address = addressRepository.findById(cep).orElseGet(() -> {
@@ -65,11 +68,8 @@ public class ClientServiceImpl implements ClientService {
     }
 
     @Override
+    @Transactional
     public ClientDTO update(Long id, ClientDTO dto) {
-        // FIXME Buscar cliente por id, caso exista: -------------------
-        // FIXME Verificar se o endereço do cliente já existe (pelo CEP) --------------------
-        // FIXME Caso não exista, integrar com o ViaCEP e persistir o retorno --------------------
-        // FIXME Alterar Cliente, vinculando o Endereço (novo ou existente) --------------------
 
         Client oldClient = clientRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Client not found with id " + id));

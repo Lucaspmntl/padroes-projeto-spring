@@ -26,6 +26,7 @@ public class ClientController {
     }
 
     @PostMapping
+    // TODO: Adicionar @Valid ao @RequestBody para ativar as validações do DTO
     public ResponseEntity<ClientDTO> insert(@RequestBody ClientDTO dto){
         return ResponseEntity
                 .status(HttpStatus.CREATED)
